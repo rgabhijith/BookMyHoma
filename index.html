@@ -2,9 +2,19 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>BookMyHoma — Vedic Homams, Poojas & Ceremonies at Home, Bangalore</title>
 <meta name="description" content="Book verified Vedic priests to perform authentic Homams, Poojas and Ceremonies at your home in Bangalore. Consultation-first booking, not instant checkout.">
+
+<!-- PWA / Add to Home Screen -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3B0B21">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BookMyHoma">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -59,6 +69,83 @@
   .btn-ghost:hover{border-color:var(--gold); background:var(--surface);}
   .btn-sm{padding:10px 18px; font-size:13px;}
   @media (max-width:980px){ nav.links{display:none;} }
+
+  /* highlighted priest CTAs */
+  .btn-highlight{
+    background:transparent; color:var(--saffron-2); border:1.5px solid var(--saffron);
+    box-shadow:0 0 0 rgba(255,122,26,0.0); position:relative;
+    animation:glow-pulse 2.4s ease-in-out infinite;
+  }
+  .btn-highlight:hover{ background:rgba(255,122,26,.12); transform:translateY(-2px); }
+  @keyframes glow-pulse{
+    0%,100%{ box-shadow:0 0 0 rgba(255,122,26,0.0); border-color:var(--saffron); }
+    50%{ box-shadow:0 0 18px rgba(255,122,26,0.35); border-color:var(--saffron-2); }
+  }
+
+  /* hamburger */
+  .hamburger{
+    display:none; width:38px; height:38px; border-radius:10px; background:var(--surface);
+    border:1px solid var(--border); align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .hamburger span{display:block; width:16px; height:2px; background:var(--on-bg); position:relative; transition:transform .25s ease, opacity .25s ease;}
+  .hamburger span::before, .hamburger span::after{content:''; position:absolute; left:0; width:16px; height:2px; background:var(--on-bg); transition:transform .25s ease, top .25s ease;}
+  .hamburger span::before{top:-5px;} .hamburger span::after{top:5px;}
+  .hamburger.open span{background:transparent;}
+  .hamburger.open span::before{top:0; transform:rotate(45deg);}
+  .hamburger.open span::after{top:0; transform:rotate(-45deg);}
+  @media (max-width:980px){ .hamburger{display:flex;} }
+
+  /* mobile slide-in menu */
+  .mobile-menu-overlay{
+    position:fixed; inset:0; background:rgba(8,4,15,0.6); backdrop-filter:blur(4px);
+    z-index:150; opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .mobile-menu-overlay.open{opacity:1; pointer-events:auto;}
+  .mobile-menu{
+    position:fixed; top:0; right:0; bottom:0; width:min(84vw,340px); z-index:151;
+    background:var(--surface-solid); border-left:1px solid var(--border);
+    transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.8,.2,1);
+    display:flex; flex-direction:column; padding:22px 22px 28px; overflow-y:auto;
+    padding-bottom:calc(28px + env(safe-area-inset-bottom));
+  }
+  .mobile-menu.open{transform:translateX(0);}
+  .mobile-menu-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;}
+  .mobile-menu-close{width:36px; height:36px; border-radius:50%; background:var(--surface); border:1px solid var(--border); color:var(--on-bg); display:flex; align-items:center; justify-content:center;}
+  .mobile-menu nav{display:flex; flex-direction:column; gap:4px; margin-bottom:22px;}
+  .mobile-menu nav a{
+    padding:14px 6px; font-size:17px; font-family:var(--font-display); font-weight:600;
+    border-bottom:1px solid var(--border); color:var(--on-bg);
+  }
+  .mobile-menu .btn{width:100%; margin-bottom:12px;}
+  .mobile-menu-section-label{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-low); margin:6px 0 10px;}
+
+  /* sticky mobile CTA bar */
+  .mobile-cta-bar{
+    display:none; position:fixed; left:0; right:0; bottom:0; z-index:95;
+    background:var(--surface-solid); border-top:1px solid var(--border);
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    gap:10px;
+    box-shadow:0 -10px 30px rgba(0,0,0,0.35);
+  }
+  .mobile-cta-bar .btn{flex:1; padding:13px 10px; font-size:12.5px;}
+  @media (max-width:700px){
+    .mobile-cta-bar{display:flex;}
+    body{padding-bottom:74px;}
+    .wa-float{bottom:96px;}
+  }
+
+  /* install banner */
+  .install-banner{
+    position:fixed; left:14px; right:14px; bottom:14px; z-index:160;
+    background:var(--surface-solid); border:1px solid var(--gold); border-radius:18px;
+    padding:16px 18px; display:none; align-items:center; gap:14px; box-shadow:var(--shadow);
+  }
+  .install-banner.show{display:flex;}
+  .install-banner .ic{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--saffron),var(--gold)); flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#210E00;}
+  .install-banner .ic svg{width:18px; height:18px;}
+  .install-banner p{font-size:13px; color:var(--on-bg-mid); flex:1; line-height:1.4;}
+  .install-banner .actions{display:flex; gap:8px; align-items:center; flex-shrink:0;}
+  .install-banner button.close-install{background:transparent; color:var(--text-low); font-size:20px; line-height:1; padding:4px;}
 
   .hero{position:relative; padding:180px 0 100px; background:radial-gradient(1100px 620px at 82% -8%, rgba(255,122,26,0.16), transparent 60%), radial-gradient(900px 500px at 10% 10%, rgba(212,175,106,0.10), transparent 55%), linear-gradient(160deg, var(--ink) 0%, var(--maroon) 78%, var(--maroon-2) 100%); overflow:hidden;}
   html[data-theme="light"] .hero{background:radial-gradient(1100px 620px at 82% -8%, rgba(255,122,26,0.13), transparent 60%), radial-gradient(900px 500px at 10% 10%, rgba(212,175,106,0.16), transparent 55%), linear-gradient(160deg, #FBF6EC 0%, #F3E4CE 78%, #EFD9B9 100%);}
@@ -120,8 +207,8 @@
   /* priest section */
   .priest-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:44px;}
   @media (max-width:820px){.priest-grid{grid-template-columns:1fr;}}
-  .priest-card{border-radius:var(--radius-lg); border:1px solid var(--border); background:var(--surface); padding:34px 30px; position:relative; overflow:hidden;}
-  .priest-card::before{content:''; position:absolute; inset:0; background:radial-gradient(320px 200px at 90% 0%, rgba(255,122,26,.12), transparent 60%); pointer-events:none;}
+  .priest-card{border-radius:var(--radius-lg); border:1.5px solid var(--gold); background:var(--surface); padding:34px 30px; position:relative; overflow:hidden; box-shadow:0 0 0 rgba(212,175,106,0);}
+  .priest-card::before{content:''; position:absolute; inset:0; background:radial-gradient(320px 200px at 90% 0%, rgba(255,122,26,.16), transparent 60%); pointer-events:none;}
   .priest-card .ic{width:36px; height:36px; color:var(--saffron-2); margin-bottom:16px; position:relative; z-index:1;}
   .priest-card h3{font-size:25px; margin-bottom:10px; position:relative; z-index:1;}
   .priest-card p{color:var(--on-bg-mid); font-size:14.5px; margin-bottom:22px; max-width:420px; position:relative; z-index:1;}
@@ -218,9 +305,54 @@
         <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1M12 20v1M4.2 4.2l.7.7M18.4 18.4l.7.7M3 12h1M20 12h1M4.2 19.8l.7-.7M18.4 5.6l.7-.7M12 7a5 5 0 100 10 5 5 0 000-10z"/></svg>
       </button>
       <button class="btn btn-primary btn-sm" id="navBookBtn">Book a Homam</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open menu"><span></span></button>
     </div>
   </div>
 </header>
+
+<!-- Mobile slide-in menu -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-head">
+    <a href="#top" class="brand" style="font-size:20px;">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--saffron-2); width:20px; height:20px;"><path d="M12 2c1.2 2.3 1.9 4 1.9 5.6 0 1.4-.8 2.3-1.9 2.3s-1.9-.9-1.9-2.3C10.1 6 10.8 4.3 12 2zM8.6 9.8C6.9 12 6 13.9 6 15.8 6 19.2 8.7 22 12 22s6-2.8 6-6.2c0-1.9-.9-3.8-2.6-6-.3 2-1.7 3.4-3.4 3.4s-3.1-1.4-3.4-3.4z"/></svg>
+      Bookmy<span>Homa</span>
+    </a>
+    <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">✕</button>
+  </div>
+
+  <div class="mobile-menu-section-label">For You</div>
+  <button class="btn btn-highlight" id="mmBookPriestBtn">📿 Book Only a Priest</button>
+  <button class="btn btn-highlight" id="mmRegisterPriestBtn">🙏 Register as a Priest</button>
+
+  <div class="mobile-menu-section-label" style="margin-top:14px;">Browse</div>
+  <nav>
+    <a href="#homams" data-mm-link>Homas</a>
+    <a href="#poojas" data-mm-link>Poojas</a>
+    <a href="#ceremonies" data-mm-link>Ceremonies</a>
+    <a href="#apara-karyas" data-mm-link>Apara Karyas</a>
+    <a href="#priests" data-mm-link>Priests</a>
+    <a href="#faq" data-mm-link>FAQ</a>
+  </nav>
+
+  <button class="btn btn-primary" id="mmWaBtn" style="margin-top:auto;">Chat on WhatsApp</button>
+</div>
+
+<!-- Sticky mobile CTA bar -->
+<div class="mobile-cta-bar" id="mobileCtaBar">
+  <button class="btn btn-highlight" id="barBookPriestBtn">📿 Book Only a Priest</button>
+  <button class="btn btn-highlight" id="barRegisterPriestBtn">🙏 Register as a Priest</button>
+</div>
+
+<!-- Add to Home Screen banner -->
+<div class="install-banner" id="installBanner">
+  <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></div>
+  <p id="installBannerText">Add BookMyHoma to your home screen for one-tap booking, like an app.</p>
+  <div class="actions">
+    <button class="btn btn-primary btn-sm" id="installActionBtn">Add</button>
+    <button class="close-install" id="installCloseBtn" aria-label="Dismiss">✕</button>
+  </div>
+</div>
 
 <main id="top">
   <section class="hero">
@@ -256,8 +388,8 @@
       </div>
 
       <div class="hero-ctas">
-        <button class="btn btn-ghost btn-sm" id="heroBookPriestBtn">📿 Book Only a Priest</button>
-        <button class="btn btn-ghost btn-sm" id="heroRegisterPriestBtn">🙏 Register as a Priest</button>
+        <button class="btn btn-highlight btn-sm" id="heroBookPriestBtn">📿 Book Only a Priest</button>
+        <button class="btn btn-highlight btn-sm" id="heroRegisterPriestBtn">🙏 Register as a Priest</button>
       </div>
     </div>
   </section>
@@ -961,6 +1093,94 @@ renderSimpleGrid('ceremonyGrid', CEREMONIES);
 renderSimpleGrid('aparaGrid', APARA_KARYAS);
 renderReviews();
 renderFaq();
+
+/* ============ MOBILE HAMBURGER MENU ============ */
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+function openMobileMenu(){
+  mobileMenu.classList.add('open');
+  mobileMenuOverlay.classList.add('open');
+  hamburgerBtn.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu(){
+  mobileMenu.classList.remove('open');
+  mobileMenuOverlay.classList.remove('open');
+  hamburgerBtn.classList.remove('open');
+  document.body.style.overflow = '';
+}
+hamburgerBtn.addEventListener('click', ()=> mobileMenu.classList.contains('open') ? closeMobileMenu() : openMobileMenu());
+mobileMenuClose.addEventListener('click', closeMobileMenu);
+mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+mobileMenu.querySelectorAll('[data-mm-link]').forEach(a=> a.addEventListener('click', closeMobileMenu));
+document.getElementById('mmWaBtn').addEventListener('click', ()=>{ closeMobileMenu(); openGeneralWhatsapp(); });
+document.getElementById('mmBookPriestBtn').addEventListener('click', ()=>{ closeMobileMenu(); openPriestBookModal(); });
+document.getElementById('mmRegisterPriestBtn').addEventListener('click', ()=>{ closeMobileMenu(); openPriestRegModal(); });
+
+/* ============ STICKY MOBILE CTA BAR ============ */
+document.getElementById('barBookPriestBtn').addEventListener('click', openPriestBookModal);
+document.getElementById('barRegisterPriestBtn').addEventListener('click', openPriestRegModal);
+
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
+});
+
+/* ============ ADD TO HOME SCREEN ============ */
+const installBanner = document.getElementById('installBanner');
+const installBannerText = document.getElementById('installBannerText');
+const installActionBtn = document.getElementById('installActionBtn');
+const installCloseBtn = document.getElementById('installCloseBtn');
+let deferredInstallPrompt = null;
+
+function isStandalone(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+function isIOS(){
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+if(!isStandalone() && !localStorage.getItem('bookmyhoma-install-dismissed')){
+  if(isIOS()){
+    installBannerText.textContent = "Add BookMyHoma to your home screen: tap Share, then \"Add to Home Screen\".";
+    installActionBtn.textContent = "Got it";
+    setTimeout(()=> installBanner.classList.add('show'), 1800);
+  }
+}
+
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if(!isStandalone() && !localStorage.getItem('bookmyhoma-install-dismissed')){
+    installBannerText.textContent = "Add BookMyHoma to your home screen for one-tap booking, like an app.";
+    installActionBtn.textContent = "Add";
+    installBanner.classList.add('show');
+  }
+});
+
+installActionBtn.addEventListener('click', async ()=>{
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+  }
+  installBanner.classList.remove('show');
+  localStorage.setItem('bookmyhoma-install-dismissed', '1');
+});
+installCloseBtn.addEventListener('click', ()=>{
+  installBanner.classList.remove('show');
+  localStorage.setItem('bookmyhoma-install-dismissed', '1');
+});
+
+/* ============ SERVICE WORKER ============ */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
 </script>
 </body>
 </html>
