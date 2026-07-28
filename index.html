@@ -15,6 +15,34 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BookMyHoma">
+
+<!-- SEO: structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to book a Homam or Pooja with BookMyHoma in Bangalore",
+  "description": "The step-by-step process for booking a verified Vedic priest for a Homam, Pooja or Ceremony at home in Bangalore.",
+  "step": [
+    { "@type": "HowToStep", "position": 1, "name": "Choose a Homam/Pooja", "text": "Browse by intention or search directly for the Homam, Pooja or Ceremony you need." },
+    { "@type": "HowToStep", "position": 2, "name": "Submit your enquiry", "text": "Share your name, phone and preferred date. It's a request, not a payment." },
+    { "@type": "HowToStep", "position": 3, "name": "We call to confirm details", "text": "Our team calls to confirm the right ritual, priest availability and final price." },
+    { "@type": "HowToStep", "position": 4, "name": "Priest visits your home", "text": "A verified priest arrives at your address in Bangalore with all materials arranged." },
+    { "@type": "HowToStep", "position": 5, "name": "Perform the ritual", "text": "The Homam or Pooja is performed at home with complete and correct Vedic vidhi." }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "BookMyHoma",
+  "description": "Verified Vedic priests for Homams, Poojas, Ceremonies and Apara Karyas performed at home in Bangalore.",
+  "areaServed": { "@type": "City", "name": "Bangalore" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Bangalore", "addressRegion": "Karnataka", "addressCountry": "IN" },
+  "telephone": "+91-9141008006"
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -102,22 +130,36 @@
   }
   .mobile-menu-overlay.open{opacity:1; pointer-events:auto;}
   .mobile-menu{
-    position:fixed; top:0; right:0; bottom:0; width:min(84vw,340px); z-index:151;
+    position:fixed; top:0; right:0; width:min(88vw,320px); z-index:151;
+    height:100vh; height:100dvh;
     background:var(--surface-solid); border-left:1px solid var(--border);
     transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.8,.2,1);
-    display:flex; flex-direction:column; padding:22px 22px 28px; overflow-y:auto;
-    padding-bottom:calc(28px + env(safe-area-inset-bottom));
+    display:flex; flex-direction:column; overflow-y:auto; overflow-x:hidden;
+    box-sizing:border-box;
+    padding:calc(18px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
   }
   .mobile-menu.open{transform:translateX(0);}
-  .mobile-menu-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;}
-  .mobile-menu-close{width:36px; height:36px; border-radius:50%; background:var(--surface); border:1px solid var(--border); color:var(--on-bg); display:flex; align-items:center; justify-content:center;}
-  .mobile-menu nav{display:flex; flex-direction:column; gap:4px; margin-bottom:22px;}
+  .mobile-menu-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; gap:10px;}
+  .mobile-menu-head .brand{min-width:0;}
+  .mobile-menu-close{width:34px; height:34px; border-radius:50%; background:var(--surface); border:1px solid var(--border); color:var(--on-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .mobile-menu nav{display:flex; flex-direction:column; gap:2px; margin-bottom:18px;}
   .mobile-menu nav a{
-    padding:14px 6px; font-size:17px; font-family:var(--font-display); font-weight:600;
+    padding:12px 4px; font-size:16px; font-family:var(--font-display); font-weight:600;
     border-bottom:1px solid var(--border); color:var(--on-bg);
   }
-  .mobile-menu .btn{width:100%; margin-bottom:12px;}
-  .mobile-menu-section-label{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-low); margin:6px 0 10px;}
+  .mobile-menu .btn{width:100%; margin-bottom:10px; white-space:normal; text-align:center;}
+  .mobile-menu-section-label{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-low); margin:4px 0 10px;}
+  @media (max-width:360px){
+    .mobile-menu{width:100vw;}
+    .mobile-menu nav a{font-size:15px; padding:10px 4px;}
+    .mobile-menu .btn{font-size:12.5px; padding:11px 14px;}
+  }
+  @media (max-height:700px){
+    .mobile-menu-head{margin-bottom:12px;}
+    .mobile-menu-section-label{margin:2px 0 6px;}
+    .mobile-menu nav a{padding:9px 4px;}
+    .mobile-menu .btn{margin-bottom:8px; padding:11px 14px;}
+  }
 
   /* sticky mobile CTA bar */
   .mobile-cta-bar{
@@ -170,6 +212,26 @@
   .hero-ctas{display:flex; gap:12px; margin-top:26px; flex-wrap:wrap;}
 
   .grid-head{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+
+  /* how it works */
+  .how-strip{padding:64px 0 16px;}
+  .how-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:18px; margin-top:44px; position:relative;}
+  .how-grid::before{
+    content:''; position:absolute; top:26px; left:10%; right:10%; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold) 15%, var(--gold) 85%, transparent);
+    opacity:.45; z-index:0;
+  }
+  @media (max-width:980px){ .how-grid{grid-template-columns:repeat(2,1fr);} .how-grid::before{display:none;} }
+  @media (max-width:560px){ .how-grid{grid-template-columns:1fr;} }
+  .how-step{position:relative; z-index:1; display:flex; flex-direction:column; gap:10px;}
+  .how-num{
+    width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; font-size:19px; color:#210E00;
+    background:linear-gradient(120deg,var(--saffron),var(--saffron-2));
+    box-shadow:0 8px 20px rgba(255,122,26,.28);
+  }
+  .how-step h4{font-size:18px; font-weight:600;}
+  .how-step p{font-size:13.5px; color:var(--on-bg-mid);}
 
   /* horizontal scroll strip (Homams) */
   .scroll-wrap{position:relative; margin-top:36px;}
@@ -293,6 +355,7 @@
       Bookmy<span>Homa</span>
     </a>
     <nav class="links">
+      <a href="#how-it-works">How It Works</a>
       <a href="#homams">Homas</a>
       <a href="#poojas">Poojas</a>
       <a href="#ceremonies">Ceremonies</a>
@@ -327,6 +390,7 @@
 
   <div class="mobile-menu-section-label" style="margin-top:14px;">Browse</div>
   <nav>
+    <a href="#how-it-works" data-mm-link>How It Works</a>
     <a href="#homams" data-mm-link>Homas</a>
     <a href="#poojas" data-mm-link>Poojas</a>
     <a href="#ceremonies" data-mm-link>Ceremonies</a>
@@ -366,7 +430,7 @@
     </svg>
     <div class="container">
       <div class="eyebrow">Bangalore · Home Service Only</div>
-      <h1>What blessings are<br>you looking for <em>today?</em></h1>
+      <h1>Authentic Vedic rituals,<br><em>delivered</em> to your home.</h1>
       <p class="lede">Verified Vedic priests, performed with full vidhi and materials, right in your home. Homams, Poojas, Ceremonies and Apara Karyas — tell us the occasion and our team will call to confirm.</p>
 
       <div class="search-box">
@@ -390,6 +454,42 @@
       <div class="hero-ctas">
         <button class="btn btn-highlight btn-sm" id="heroBookPriestBtn">📿 Book Only a Priest</button>
         <button class="btn btn-highlight btn-sm" id="heroRegisterPriestBtn">🙏 Register as a Priest</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS — trust-building process, real steps, no false promises -->
+  <section class="how-strip" id="how-it-works">
+    <div class="container">
+      <div class="eyebrow">How It Works</div>
+      <h2 class="section-title">From enquiry to ritual, in five honest steps</h2>
+      <p class="section-sub">No instant checkout, no automated confirmation — a real person calls you before anything is booked.</p>
+      <div class="how-grid">
+        <div class="how-step">
+          <div class="how-num">1</div>
+          <h4>Choose a Homam/Pooja</h4>
+          <p>Browse by intention or search directly for the Homam, Pooja or Ceremony you need.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">2</div>
+          <h4>Submit your enquiry</h4>
+          <p>Share your name, phone and preferred date. It's a request, not a payment.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">3</div>
+          <h4>We call to confirm details</h4>
+          <p>Our team calls to confirm the right ritual, priest availability and final price.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">4</div>
+          <h4>Priest visits your home</h4>
+          <p>A verified priest arrives at your address in Bangalore with all materials arranged.</p>
+        </div>
+        <div class="how-step">
+          <div class="how-num">5</div>
+          <h4>Perform the ritual</h4>
+          <p>The Homam or Pooja is performed at home with complete and correct Vedic vidhi.</p>
+        </div>
       </div>
     </div>
   </section>
