@@ -131,33 +131,39 @@
   .mobile-menu-overlay.open{opacity:1; pointer-events:auto;}
   .mobile-menu{
     position:fixed; top:0; right:0; width:min(88vw,320px); z-index:151;
-    height:100vh; height:100dvh;
+    height:100vh;
+    height:calc(var(--vh, 1vh) * 100);
+    height:100dvh;
+    max-height:100%;
     background:var(--surface-solid); border-left:1px solid var(--border);
     transform:translateX(100%); transition:transform .35s cubic-bezier(.2,.8,.2,1);
     display:flex; flex-direction:column; overflow-y:auto; overflow-x:hidden;
+    -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
     box-sizing:border-box;
-    padding:calc(18px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
+    padding:calc(16px + env(safe-area-inset-top)) calc(18px + env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left));
   }
   .mobile-menu.open{transform:translateX(0);}
-  .mobile-menu-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; gap:10px;}
-  .mobile-menu-head .brand{min-width:0;}
-  .mobile-menu-close{width:34px; height:34px; border-radius:50%; background:var(--surface); border:1px solid var(--border); color:var(--on-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
-  .mobile-menu nav{display:flex; flex-direction:column; gap:2px; margin-bottom:18px;}
+  .mobile-menu-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:10px; flex-shrink:0;}
+  .mobile-menu-head .brand{min-width:0; font-size:19px;}
+  .mobile-menu-close{width:32px; height:32px; border-radius:50%; background:var(--surface); border:1px solid var(--border); color:var(--on-bg); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .mobile-menu nav{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:16px;}
   .mobile-menu nav a{
-    padding:12px 4px; font-size:16px; font-family:var(--font-display); font-weight:600;
-    border-bottom:1px solid var(--border); color:var(--on-bg);
+    padding:12px 8px; font-size:13.5px; font-family:var(--font-body); font-weight:700;
+    border:1px solid var(--border); border-radius:12px; background:var(--surface);
+    color:var(--on-bg); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .mobile-menu .btn{width:100%; margin-bottom:10px; white-space:normal; text-align:center;}
-  .mobile-menu-section-label{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-low); margin:4px 0 10px;}
+  .mobile-menu .btn{width:100%; margin-bottom:10px; white-space:normal; text-align:center; flex-shrink:0;}
+  .mobile-menu-section-label{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-low); margin:2px 0 8px; flex-shrink:0;}
   @media (max-width:360px){
     .mobile-menu{width:100vw;}
-    .mobile-menu nav a{font-size:15px; padding:10px 4px;}
+    .mobile-menu nav a{font-size:12.5px; padding:10px 6px;}
     .mobile-menu .btn{font-size:12.5px; padding:11px 14px;}
   }
   @media (max-height:700px){
-    .mobile-menu-head{margin-bottom:12px;}
+    .mobile-menu-head{margin-bottom:10px;}
     .mobile-menu-section-label{margin:2px 0 6px;}
-    .mobile-menu nav a{padding:9px 4px;}
+    .mobile-menu nav{gap:6px; margin-bottom:12px;}
+    .mobile-menu nav a{padding:9px 6px;}
     .mobile-menu .btn{margin-bottom:8px; padding:11px 14px;}
   }
 
@@ -165,15 +171,23 @@
   .mobile-cta-bar{
     display:none; position:fixed; left:0; right:0; bottom:0; z-index:95;
     background:var(--surface-solid); border-top:1px solid var(--border);
-    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-    gap:10px;
+    padding:10px 10px calc(10px + env(safe-area-inset-bottom));
+    gap:8px; align-items:center;
     box-shadow:0 -10px 30px rgba(0,0,0,0.35);
+    box-sizing:border-box;
   }
-  .mobile-cta-bar .btn{flex:1; padding:13px 10px; font-size:12.5px;}
+  .mobile-cta-bar .btn{
+    flex:1; min-width:0; padding:13px 8px; font-size:11.5px; height:44px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:flex;
+  }
   @media (max-width:700px){
     .mobile-cta-bar{display:flex;}
-    body{padding-bottom:74px;}
-    .wa-float{bottom:96px;}
+    body{padding-bottom:calc(64px + env(safe-area-inset-bottom));}
+    .wa-float{bottom:calc(78px + env(safe-area-inset-bottom)); width:50px; height:50px;}
+    .wa-float svg{width:24px; height:24px;}
+  }
+  @media (max-width:360px){
+    .mobile-cta-bar .btn{font-size:10.5px; padding:12px 6px;}
   }
 
   /* install banner */
@@ -206,6 +220,33 @@
   .search-box svg{width:18px; height:18px; color:var(--gold-soft); flex-shrink:0;}
   .search-box input{flex:1; background:transparent; border:none; outline:none; color:var(--on-bg); font-family:var(--font-body); font-size:15px; padding:12px 0;}
   .search-box input::placeholder{color:var(--text-low);}
+  .search-wrap{position:relative; max-width:640px;}
+  .search-dropdown{
+    position:absolute; left:0; right:0; top:calc(100% + 10px); z-index:40;
+    background:var(--surface-solid); border:1px solid var(--border); border-radius:20px;
+    box-shadow:var(--shadow); max-height:380px; overflow-y:auto; padding:8px;
+    display:none;
+  }
+  .search-dropdown.show{display:block;}
+  .search-result{
+    display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:14px;
+    cursor:pointer; transition:background .2s ease;
+  }
+  .search-result:hover, .search-result:focus-visible{background:rgba(255,122,26,.1);}
+  .search-result .sr-ic{
+    width:36px; height:36px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--maroon), var(--maroon-2)); color:var(--gold-soft);
+  }
+  .search-result .sr-ic svg{width:18px; height:18px;}
+  .search-result .sr-body{flex:1; min-width:0;}
+  .search-result .sr-body b{display:block; font-size:14.5px; font-weight:700; color:var(--on-bg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .search-result .sr-body span{font-family:var(--font-mono); font-size:11.5px; color:var(--text-low);}
+  .search-result .sr-price{font-family:var(--font-mono); font-size:12.5px; color:var(--saffron-2); flex-shrink:0;}
+  .search-dropdown .sr-empty{padding:16px 12px; font-size:13.5px; color:var(--text-low); text-align:center;}
+  .search-dropdown .sr-footer{
+    padding:10px 12px 4px; font-family:var(--font-mono); font-size:11px; color:var(--text-low);
+    border-top:1px solid var(--border); margin-top:4px; text-align:center;
+  }
   .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px;}
   .chip{font-size:13px; font-weight:600; padding:9px 16px; border-radius:100px; border:1px solid var(--border); color:var(--on-bg-mid); background:var(--surface); transition:all .25s ease; cursor:pointer;}
   .chip:hover, .chip.active{border-color:var(--saffron); color:var(--saffron-2); background:rgba(255,122,26,.08);}
@@ -433,10 +474,13 @@
       <h1>Authentic Vedic rituals,<br><em>delivered</em> to your home.</h1>
       <p class="lede">Verified Vedic priests, performed with full vidhi and materials, right in your home. Homams, Poojas, Ceremonies and Apara Karyas — tell us the occasion and our team will call to confirm.</p>
 
-      <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input type="text" id="searchInput" placeholder="Search Ganapathi Homam, Lakshmi Pooja, Navagraha…">
-        <button class="btn btn-primary btn-sm" onclick="document.getElementById('homams').scrollIntoView({behavior:'smooth'})">Search</button>
+      <div class="search-wrap">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Search Homams, Poojas, Ceremonies, Apara Karyas…" autocomplete="off">
+          <button class="btn btn-primary btn-sm" id="searchGoBtn">Search</button>
+        </div>
+        <div class="search-dropdown" id="searchDropdown"></div>
       </div>
 
       <div class="chips" id="chipRow">
@@ -724,6 +768,37 @@
 </div>
 
 <!-- Book Only a Priest modal -->
+<!-- Quick Book a Homam modal (from nav / header CTA) -->
+<div class="modal-overlay" id="quickBookOverlay">
+  <div class="modal">
+    <button class="modal-close" id="quickBookClose" aria-label="Close">✕</button>
+    <div class="modal-hero"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2c1.2 2.3 1.9 4 1.9 5.6 0 1.4-.8 2.3-1.9 2.3s-1.9-.9-1.9-2.3C10.1 6 10.8 4.3 12 2zM8.6 9.8C6.9 12 6 13.9 6 15.8 6 19.2 8.7 22 12 22s6-2.8 6-6.2c0-1.9-.9-3.8-2.6-6-.3 2-1.7 3.4-3.4 3.4s-3.1-1.4-3.4-3.4z" fill="currentColor"/></svg></div>
+    <div class="modal-body">
+      <h3>Book a Homam</h3>
+      <p class="modal-desc">Tell us which Homam or Pooja you'd like, or let us know your occasion and we'll recommend one. Our team will call to confirm.</p>
+      <form id="quickBookForm">
+        <div class="form-grid">
+          <div class="field"><label for="qbName">Your Name</label><input type="text" id="qbName" required placeholder="e.g. Ramesh Kumar"></div>
+          <div class="field"><label for="qbPhone">Phone Number</label><input type="tel" id="qbPhone" required placeholder="+91 98765 43210"></div>
+          <div class="field full"><label for="qbService">Homam / Pooja (if known)</label><input type="text" id="qbService" placeholder="e.g. Ganapathi Homam, Satyanarayana Pooja"></div>
+          <div class="field"><label for="qbDate">Preferred Date</label><input type="date" id="qbDate"></div>
+          <div class="field"><label for="qbTime">Preferred Time</label><input type="time" id="qbTime"></div>
+          <div class="field full"><label for="qbAddress">Address (Area, Bangalore)</label><input type="text" id="qbAddress" placeholder="e.g. Indiranagar, Bangalore"></div>
+          <div class="field full"><label for="qbNotes">Additional Notes</label><textarea id="qbNotes" placeholder="Anything specific we should know?"></textarea></div>
+        </div>
+        <div class="form-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <span>This is a booking enquiry, not a payment. Tapping the button below opens WhatsApp with your details pre-filled — our team will call you to confirm.</span>
+        </div>
+        <button type="submit" class="btn-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.5 7.8 9.3 7.3c-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20z"/></svg>
+          Send Enquiry on WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="priestBookOverlay">
   <div class="modal">
     <button class="modal-close" id="priestBookClose" aria-label="Close">✕</button>
@@ -879,6 +954,8 @@ const APARA_KARYAS = [
 ];
 
 const CATEGORIES = Object.keys(CATEGORY_META).map(name=>({name, icon:CATEGORY_META[name].icon}));
+const ALL_SERVICES = [...HOMAMS, ...POOJAS, ...CEREMONIES, ...APARA_KARYAS];
+const SECTION_BY_TYPE = { Homam:"homams", Pooja:"poojas", Ceremony:"ceremonies", "Apara Karya":"apara-karyas" };
 
 const REVIEWS = [
   {name:"Deepa N.", area:"Jayanagar", text:"The priest arrived exactly on time with everything needed. Our Ganapathi Homam felt authentic, not rushed at all."},
@@ -920,24 +997,33 @@ function serviceCardHTML(s){
 }
 
 function findService(id){
-  return HOMAMS.find(x=>x.id===id) || POOJAS.find(x=>x.id===id) || CEREMONIES.find(x=>x.id===id) || APARA_KARYAS.find(x=>x.id===id);
+  return ALL_SERVICES.find(x=>x.id===id);
+}
+
+function matchesSearch(item, term){
+  if(!term) return true;
+  const t = term.trim().toLowerCase();
+  return item.title.toLowerCase().includes(t)
+    || item.category.toLowerCase().includes(t)
+    || item.type.toLowerCase().includes(t)
+    || item.desc.toLowerCase().includes(t);
 }
 
 let currentFilter = "all";
+let currentSearch = "";
+
 function renderHomams(filter="all", search=""){
   const grid = document.getElementById('homamGrid');
-  const term = search.trim().toLowerCase();
-  const list = HOMAMS.filter(h =>
-    (filter === "all" || h.category === filter) &&
-    (term === "" || h.title.toLowerCase().includes(term) || h.category.toLowerCase().includes(term))
-  );
+  const list = HOMAMS.filter(h => (filter === "all" || h.category === filter) && matchesSearch(h, search));
   grid.innerHTML = list.length ? list.map(serviceCardHTML).join('') :
     `<p style="color:var(--text-low); flex-shrink:0;">No Homams match that search — try another term or WhatsApp us directly.</p>`;
   attachCardHandlers(grid);
 }
-function renderSimpleGrid(containerId, items){
+function renderSimpleGrid(containerId, items, search="", label="services"){
   const grid = document.getElementById(containerId);
-  grid.innerHTML = items.map(serviceCardHTML).join('');
+  const list = items.filter(item => matchesSearch(item, search));
+  grid.innerHTML = list.length ? list.map(serviceCardHTML).join('') :
+    `<p style="color:var(--text-low); flex-shrink:0;">No ${label} match that search — try another term or WhatsApp us directly.</p>`;
   attachCardHandlers(grid);
 }
 function attachCardHandlers(container){
@@ -945,6 +1031,13 @@ function attachCardHandlers(container){
     card.addEventListener('click', ()=> openModal(card.getAttribute('data-id')));
     card.addEventListener('keypress', e=>{ if(e.key==='Enter') openModal(card.getAttribute('data-id')); });
   });
+}
+function renderAllSections(search=""){
+  currentSearch = search;
+  renderHomams(currentFilter, search);
+  renderSimpleGrid('poojaGrid', POOJAS, search, "Poojas");
+  renderSimpleGrid('ceremonyGrid', CEREMONIES, search, "Ceremonies");
+  renderSimpleGrid('aparaGrid', APARA_KARYAS, search, "Apara Karyas");
 }
 
 function renderReviews(){
@@ -989,13 +1082,13 @@ function renderFaq(){
   });
 }
 
-/* ============ FILTERING (Homams only) ============ */
+/* ============ FILTERING (Homams category chips) + SITE-WIDE SEARCH ============ */
 function applyFilter(name){
   currentFilter = name;
   document.querySelectorAll('#chipRow .chip').forEach(c=>{
     c.classList.toggle('active', c.getAttribute('data-filter') === name);
   });
-  renderHomams(currentFilter, document.getElementById('searchInput').value);
+  renderHomams(currentFilter, currentSearch);
   document.getElementById('homams').scrollIntoView({behavior:'smooth'});
 }
 document.getElementById('chipRow').addEventListener('click', e=>{
@@ -1003,9 +1096,66 @@ document.getElementById('chipRow').addEventListener('click', e=>{
   if(!chip) return;
   applyFilter(chip.getAttribute('data-filter'));
 });
-document.getElementById('searchInput').addEventListener('input', e=>{
-  renderHomams(currentFilter, e.target.value);
+
+const searchInputEl = document.getElementById('searchInput');
+const searchDropdown = document.getElementById('searchDropdown');
+const searchWrap = document.querySelector('.search-wrap');
+
+function renderSearchDropdown(term){
+  const t = term.trim();
+  if(t.length < 2){ searchDropdown.classList.remove('show'); searchDropdown.innerHTML = ''; return; }
+  const matches = ALL_SERVICES.filter(s => matchesSearch(s, t));
+  if(!matches.length){
+    searchDropdown.innerHTML = `<div class="sr-empty">No results for "${t}" — try Ganapathi, Lakshmi, Vastu, Gruhapravesha…</div>`;
+  } else {
+    const top = matches.slice(0, 8);
+    searchDropdown.innerHTML = top.map(s => `
+      <div class="search-result" data-id="${s.id}" role="button" tabindex="0">
+        <div class="sr-ic">${FLAME_ICON}</div>
+        <div class="sr-body">
+          <b>${s.title}</b>
+          <span>${s.type} · ${s.category}</span>
+        </div>
+        <div class="sr-price">₹${s.price.toLocaleString('en-IN')}</div>
+      </div>
+    `).join('') + (matches.length > 8 ? `<div class="sr-footer">+${matches.length - 8} more — press Search to see all</div>` : '');
+    searchDropdown.querySelectorAll('.search-result').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        searchDropdown.classList.remove('show');
+        openModal(el.getAttribute('data-id'));
+      });
+      el.addEventListener('keypress', e=>{ if(e.key==='Enter') el.click(); });
+    });
+  }
+  searchDropdown.classList.add('show');
+}
+
+function goToSearch(){
+  const term = searchInputEl.value.trim();
+  searchDropdown.classList.remove('show');
+  if(!term){ document.getElementById('homams').scrollIntoView({behavior:'smooth'}); return; }
+  const matches = ALL_SERVICES.filter(s => matchesSearch(s, term));
+  const targetType = matches.length ? matches[0].type : "Homam";
+  const targetSection = SECTION_BY_TYPE[targetType] || "homams";
+  document.getElementById(targetSection).scrollIntoView({behavior:'smooth'});
+}
+
+searchInputEl.addEventListener('input', e=>{
+  renderAllSections(e.target.value);
+  renderSearchDropdown(e.target.value);
 });
+searchInputEl.addEventListener('focus', e=>{
+  if(e.target.value.trim().length >= 2) renderSearchDropdown(e.target.value);
+});
+searchInputEl.addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){ e.preventDefault(); goToSearch(); }
+  if(e.key === 'Escape'){ searchDropdown.classList.remove('show'); searchInputEl.blur(); }
+});
+document.getElementById('searchGoBtn').addEventListener('click', goToSearch);
+document.addEventListener('click', e=>{
+  if(searchWrap && !searchWrap.contains(e.target)) searchDropdown.classList.remove('show');
+});
+
 
 /* ============ HORIZONTAL SCROLL ARROWS ============ */
 function wireScrollArrows(leftId, rightId, stripId){
@@ -1027,9 +1177,46 @@ function openGeneralWhatsapp(){
   window.open(buildWaLink(msg), "_blank", "noopener");
 }
 document.getElementById('ctaWaBtn').addEventListener('click', openGeneralWhatsapp);
-document.getElementById('navBookBtn').addEventListener('click', openGeneralWhatsapp);
+document.getElementById('navBookBtn').addEventListener('click', openQuickBookModal);
 document.getElementById('floatWaBtn').addEventListener('click', openGeneralWhatsapp);
 document.getElementById('footerWaLink').addEventListener('click', e=>{ e.preventDefault(); openGeneralWhatsapp(); });
+
+/* ============ QUICK BOOK A HOMAM MODAL (nav CTA) ============ */
+const quickBookOverlay = document.getElementById('quickBookOverlay');
+function openQuickBookModal(){
+  document.getElementById('quickBookForm').reset();
+  quickBookOverlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeQuickBookModal(){ quickBookOverlay.classList.remove('show'); document.body.style.overflow=''; }
+document.getElementById('quickBookClose').addEventListener('click', closeQuickBookModal);
+quickBookOverlay.addEventListener('click', e=>{ if(e.target===quickBookOverlay) closeQuickBookModal(); });
+
+document.getElementById('quickBookForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('qbName').value.trim();
+  const phone = document.getElementById('qbPhone').value.trim();
+  const service = document.getElementById('qbService').value.trim();
+  const date = document.getElementById('qbDate').value;
+  const time = document.getElementById('qbTime').value;
+  const address = document.getElementById('qbAddress').value.trim();
+  const notes = document.getElementById('qbNotes').value.trim();
+  if(!name || !phone){ showToast("Please add your name and phone number"); return; }
+  const lines = [
+    "🛕 New Homam Enquiry",
+    `Homam / Pooja: ${service || "Not specified — please advise"}`,
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+    date ? `Preferred Date: ${date}` : null,
+    time ? `Preferred Time: ${time}` : null,
+    address ? `Address: ${address}` : null,
+    notes ? `Notes: ${notes}` : null,
+    "Status: New Lead",
+  ].filter(Boolean);
+  window.open(buildWaLink(lines.join("\n")), "_blank", "noopener");
+  showToast("Opening WhatsApp with your enquiry…");
+  setTimeout(closeQuickBookModal, 600);
+});
 
 /* ============ SERVICE DETAIL MODAL ============ */
 let activeService = null;
@@ -1161,6 +1348,7 @@ document.getElementById('priestRegForm').addEventListener('submit', function(e){
 document.addEventListener('keydown', e=>{
   if(e.key !== 'Escape') return;
   if(overlay.classList.contains('show')) closeModal();
+  if(quickBookOverlay.classList.contains('show')) closeQuickBookModal();
   if(priestBookOverlay.classList.contains('show')) closePriestBookModal();
   if(priestRegOverlay.classList.contains('show')) closePriestRegModal();
 });
@@ -1187,14 +1375,18 @@ function setTheme(theme){ root.setAttribute('data-theme', theme); localStorage.s
 themeToggle.addEventListener('click', ()=>{ setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
 
 /* ============ INIT ============ */
-renderHomams();
-renderSimpleGrid('poojaGrid', POOJAS);
-renderSimpleGrid('ceremonyGrid', CEREMONIES);
-renderSimpleGrid('aparaGrid', APARA_KARYAS);
+renderAllSections();
 renderReviews();
 renderFaq();
 
 /* ============ MOBILE HAMBURGER MENU ============ */
+function setViewportHeightVar(){
+  document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+}
+setViewportHeightVar();
+window.addEventListener('resize', setViewportHeightVar);
+window.addEventListener('orientationchange', setViewportHeightVar);
+
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
