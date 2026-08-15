@@ -1,0 +1,45 @@
+{
+  "id": "/",
+  "name": "BookMyHoma — Vedic Pooja & Homam at Home in Bangalore",
+  "short_name": "BookMyHoma",
+  "description": "Book verified Vedic priests for Homams, Poojas, Ceremonies and Apara Karyas at home in Bangalore.",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#120A1F",
+  "theme_color": "#3B0B21",
+  "categories": ["lifestyle", "shopping", "religion"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book a Homam",
+      "short_name": "Book Homam",
+      "description": "Send a Homam or Pooja booking enquiry",
+      "url": "./index.html?action=book-homam",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Book Only a Priest",
+      "short_name": "Book Priest",
+      "description": "Request a priest without a specific ritual",
+      "url": "./index.html?action=book-priest",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Chat on WhatsApp",
+      "short_name": "WhatsApp",
+      "description": "Message BookMyHoma directly",
+      "url": "./index.html?action=whatsapp",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
